@@ -1,36 +1,37 @@
 import bip39 from 'bip39';
+import parseAlgorithm from './algorithm';
 
-// generateKey(algorithm) -> { mnemonic, seed, key  }
-// getKeyFromSeed() -> key
-// getKeyFromMnemonic() -> key
-// generateQrCode(seed) -> string (data base64)
+const generateKeyPair = async (algorithm) => {
+    const { name, params, generateKeyPair } = parseAlgorithm(algorithm);
 
-const generateKey = (algorithm, options) => {
-    // TODO: locale
     const mnemonic = bip39.generateMnemonic();
-    const seed = bip39.mnemonicToSeed(mnemonic);
+    const seedBuffer = bip39.mnemonicToSeed(mnemonic);
+    const seed = new Uint8Array(seedBuffer.buffer);
 
-    console.log('mnemonic', mnemonic);
-    console.log('seed', seed, '!!', seed.length);
-
-    const key = '';
+    const { privateKey, publicKey } = await generateKeyPair(params, seed);
 
     return {
+        algorithm: { name, ...params },
         mnemonic,
         seed,
+        publicKey,
+        privateKey,
     };
 };
 
-const getKeyFromSeed = (seed) => {
+const getKeyPairFromMnemonic = async (algorithm, mnemonic) => {
+    const { params, generateKeyPair } = parseAlgorithm(algorithm);
 
+    const seedBuffer = bip39.mnemonicToSeed(mnemonic);
+    const seed = new Uint8Array(seedBuffer.buffer);
+
+    return generateKeyPair(params, seed);
 };
 
-const getKeyFromMnemonic = (mnemonic) => {
+const getKeyPairFromSeed = async (algorithm, seed) => {
+    const { params, generateKeyPair } = parseAlgorithm(algorithm);
 
+    return generateKeyPair(params, seed);
 };
 
-const generateQrCode = (seed) => {
-
-};
-
-export { generateKey, getKeyFromSeed, getKeyFromMnemonic, generateQrCode };
+export { generateKeyPair, getKeyPairFromMnemonic, getKeyPairFromSeed };
