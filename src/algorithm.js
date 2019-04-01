@@ -27,7 +27,7 @@ const buildParams = (defaultParams, customParams) => {
 
         // Do now allow different types
         if (typeof value !== typeof defaultParams[key]) {
-            throw new Error(`Excpted algorithm param '${key}' to be a ${typeof params[key]}`);
+            throw new Error(`Expected algorithm param '${key}' to be a ${typeof params[key]}`);
         }
 
         params[key] = value;
