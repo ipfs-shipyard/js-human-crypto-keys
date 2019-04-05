@@ -1,51 +1,52 @@
-import pki from 'node-forge/lib/pki';
 import rsa from 'node-forge/lib/rsa';
-import util from 'node-forge/lib/util';
-import HmacDrgb from 'hmac-drbg';
-import hash from 'hash.js';
 import pify from 'pify';
+import { createPrng } from '../utils';
 
 const forgeGenerateKeyPair = pify(rsa.generateKeyPair);
 
 const defaultParams = {
-    bits: 2048,
+    modulusLength: 2048,
     publicExponent: 65537,
     method: 'PRIMEINC',
 };
 
-const createPrng = (seed) => {
-    const hmacDrgb = new HmacDrgb({
-        hash: hash.sha256,
-        entropy: util.binary.hex.encode(seed),
-        nonce: null,
-        pers: null,
-    });
+const parseForgePrivateKey = (privateKey) => {
+    const { n, e, d, p, q, dP, dQ, qInv } = privateKey;
 
     return {
-        getBytesSync: (size) => {
-            const bytesArray = hmacDrgb.generate(size);
-            const bytes = new Uint8Array(bytesArray);
+        modulus: new Uint8Array(n.toByteArray()),
+        publicExponent: e.intValue(),
+        privateExponent: new Uint8Array(d.toByteArray()),
+        prime1: new Uint8Array(p.toByteArray()),
+        prime2: new Uint8Array(q.toByteArray()),
+        exponent1: new Uint8Array(dP.toByteArray()),
+        exponent2: new Uint8Array(dQ.toByteArray()),
+        coefficient: new Uint8Array(qInv.toByteArray()),
+    };
+};
 
-            return util.binary.raw.encode(bytes);
-        },
+const parseForgePublicKey = (publicKey) => {
+    const { n, e } = publicKey;
+
+    return {
+        modulus: new Uint8Array(n.toByteArray()),
+        publicExponent: e.intValue(),
     };
 };
 
 const generateKeyPair = async (params, seed) => {
-    // Generate the RSA key-pair using node-forge by passing all the correct params and a custom
-    // prng based on the seed
-    const { privateKey, publicKey } = await forgeGenerateKeyPair(params.bits, params.publicExponent, {
-        prng: createPrng(seed),
-        algorithm: params.method,
-    });
+    const { modulusLength, publicExponent, method } = params;
 
-    // Convert key-pair to pem base64 encoded format
-    const privateKeyPem = pki.privateKeyToPem(privateKey);
-    const publicKeyPem = pki.publicKeyToPem(publicKey);
+    const options = {
+        prng: createPrng(seed),
+        algorithm: method,
+    };
+
+    const { privateKey, publicKey } = await forgeGenerateKeyPair(modulusLength, publicExponent, options);
 
     return {
-        privateKey: privateKeyPem,
-        publicKey: publicKeyPem,
+        privateKey: parseForgePrivateKey(privateKey),
+        publicKey: parseForgePublicKey(publicKey),
     };
 };
 

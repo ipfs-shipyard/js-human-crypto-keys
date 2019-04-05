@@ -1,59 +1,51 @@
-import { forEach } from 'lodash';
+import { getKeyTypeFromAlgorithm } from 'crypto-key-composer';
 import * as rsa from './keys/rsa';
 import * as ed25519 from './keys/ed25519';
+import { UnkownAlgorithm, UnkownAlgorithmParam, NilAlgorithmParam, TypeMismatchAlgorithmParam } from './utils/errors';
 
-const algorithmsMap = {
+const supportedAlgorithms = {
     rsa,
     ed25519,
 };
 
-const buildParams = (defaultParams, customParams) => {
-    const params = {
-        ...defaultParams,
-    };
+const buildParams = (defaultParams, customParams) => Object.keys(customParams).reduce((params, key) => {
+    // Do not allow unknown keys (params)
+    if (defaultParams[key] == null) {
+        throw new UnkownAlgorithmParam(key);
+    }
 
-    // Merge each custom parameter but apply validation
-    // This gives us garantees that the keys params are deterministic
-    forEach(customParams, (value, key) => {
-        // Do not allow unknown keys (params)
-        if (defaultParams[key] == null) {
-            throw new Error(`Unknown algorithm param '${key}'`);
-        }
+    // Do not allow nullish values
+    if (customParams[key] == null) {
+        throw new NilAlgorithmParam(key);
+    }
 
-        // Dot not allow nullish values
-        if (value == null) {
-            throw new Error(`Algorithm param '${key}' can't be null or undefined`);
-        }
+    // Do not allow different types
+    if (typeof customParams[key] !== typeof defaultParams[key]) {
+        throw new TypeMismatchAlgorithmParam(key, typeof defaultParams[key]);
+    }
 
-        // Do now allow different types
-        if (typeof value !== typeof defaultParams[key]) {
-            throw new Error(`Expected algorithm param '${key}' to be a ${typeof params[key]}`);
-        }
-
-        params[key] = value;
-    });
+    params[key] = customParams[key];
 
     return params;
-};
+}, { ...defaultParams });
 
-const parseAlgorithm = (algorithm) => {
-    if (typeof algorithm === 'string') {
-        algorithm = { name: algorithm };
+const parseAlgorithm = (keyAlgorithm) => {
+    const algorithm = typeof keyAlgorithm === 'string' ? { id: keyAlgorithm } : keyAlgorithm;
+    const type = supportedAlgorithms[algorithm.id] ? algorithm.id : getKeyTypeFromAlgorithm(algorithm.id);
+
+    if (!type) {
+        throw new UnkownAlgorithm(algorithm.id);
     }
 
-    const { name, ...customParams } = algorithm;
-
-    if (!algorithmsMap[name]) {
-        throw new Error(`Unknown algorithm '${name}'`);
-    }
-
-    const { generateKeyPair, defaultParams } = algorithmsMap[name];
+    const { generateKeyPair, defaultParams } = supportedAlgorithms[type];
+    const { id, ...customParams } = algorithm;
     const params = buildParams(defaultParams, customParams);
 
     return {
-        name,
+        id,
+        type,
         params,
-        generateKeyPair,
+        generate: generateKeyPair,
     };
 };
 

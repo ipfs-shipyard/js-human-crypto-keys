@@ -64,6 +64,16 @@
       "@commitlint/config-conventional"
     ]
   },
+  "jest": {
+    "collectCoverage": true,
+    "testRegex": "/__tests__/.*\\.test\\.js$",
+    "testPathIgnorePatterns": [
+      "/demo/",
+      "/lib/",
+      "/es/",
+      "/node_modules/"
+    ]
+  },
   "devDependencies": {
     "@babel/cli": "^7.2.3",
     "@babel/core": "^7.3.4",
@@ -79,7 +89,8 @@
     "standard-version": "^5.0.0"
   },
   "dependencies": {
-    "bip39": "^2.5.0",
+    "bip39": "^2.6.0",
+    "crypto-key-composer": "^0.1.0",
     "hash.js": "^1.1.7",
     "hmac-drbg": "^1.0.1",
     "node-forge": "^0.8.2",
