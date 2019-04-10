@@ -65,14 +65,7 @@
     ]
   },
   "jest": {
-    "collectCoverage": true,
-    "testRegex": "/__tests__/.*\\.test\\.js$",
-    "testPathIgnorePatterns": [
-      "/demo/",
-      "/lib/",
-      "/es/",
-      "/node_modules/"
-    ]
+    "testRegex": "/__tests__/.*\\.test\\.js$"
   },
   "devDependencies": {
     "@babel/cli": "^7.2.3",

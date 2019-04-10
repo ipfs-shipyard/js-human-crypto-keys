@@ -61,11 +61,17 @@ Returns an object with the following:
 }
 ```
 
-#### Parameters
+#### algorithm
 
-[algorithm](#algorithm)
+Type: `Object` or `String`
 
-[options](#options)
+The algorithm identifier and the respective parameters to generate a key pair. Please read the [algorithms](#algorithms) section for more information.
+
+#### options
+
+Type: `Object`
+
+Options to be used while composing keys.Please read the [options](#options) section for more information.
 
 ### getKeyPairFromMnemonic(mnemonic, algorithm, options)
 
@@ -79,18 +85,23 @@ Returns an object with the following:
 }
 ```
 
-#### Parameters
-
-<details><summary><strong>mnemonic</strong></summary>
+#### mnemonic
 
 Type: `String`
 
 The mnemonic provided as one of the recovery methods for a key pair.
-</details>
 
-[algorithm](#algorithm)
+#### algorithm
 
-[options](#options)
+Type: `Object` or `String`
+
+The algorithm identifier and the respective parameters to generate a key pair. Please read the [algorithms](#algorithms) section for more information.
+
+#### options
+
+Type: `Object`
+
+Options to be used while composing keys.Please read the [options](#options) section for more information.
 
 ### getKeyPairFromSeed(seed, algorithm, options)
 
@@ -104,21 +115,27 @@ Returns an object with the following:
 }
 ```
 
-#### Parameters
-
-<details><summary><strong>seed</strong></summary>
+#### seed
 
 Type: `String`
 
 The seed provided as one of the recovery methods for a key pair.
-</details>
 
-[algorithm](#algorithm)
+#### algorithm
 
-[options](#options)
+Type: `Object` or `String`
+
+The algorithm identifier and the respective parameters to generate a key pair. Please read the [algorithms](#algorithms) section for more information.
+
+#### options
+
+Type: `Object`
+
+Options to be used while composing keys.Please read the [options](#options) section for more information.
 
 ### Common Parameters
-<details name="algorithm"><summary><strong>algorithm</strong></summary>
+
+#### algorithm
  
 Type: `Object` or `String`
 
@@ -132,9 +149,11 @@ The default parameters are different for each algorithm type. Currently only 2 t
 
 Default Parameters:
 ```js
-modulusLength: 2048		    // Number
-publicExponent: 65537		// Number
-method: 'PRIMEINC'		    // String
+{
+	modulusLength: 2048		    // Number
+	publicExponent: 65537		// Number
+	method: 'PRIMEINC'		    // String
+}
 ```
 
 You can override only the parameters that you need, all the other ones remain with default values. 
@@ -155,11 +174,21 @@ const algorithm = 'rsa';
 ```
 
 In the examples above we are using an alias for RSA encryption. Although this is possible, the full list of supported RSA key algorithms can be found in the [RSA Keys Section](https://github.com/ipfs-shipyard/js-crypto-key-composer/tree/initial-impl#key-algorithms) of [crypto-key-composer](https://github.com/ipfs-shipyard/js-crypto-key-composer) package.
+
+##### Generation
+
+The following steps detail how the generation of a RSA key pair is being done:
+1. Create a Pseudorandom Number Generator, `prng` for short, with [HMAC-DRBG](https://github.com/indutny/hmac-drbg) using a `seed` as its generation entropy. This `seed` can be provided or generated:
+	- If a `mnemonic` is not provided, one will be generated first to generate the `seed` based on it. Both generations are done with [bip39](https://github.com/bitcoinjs/bip39).
+	- If a `mnemonic` is provided, the `seed` is generated based on it. This generation is done with [bip39](https://github.com/bitcoinjs/bip39).
+2. Generate a key pair, using [Node Forge RSA](https://github.com/digitalbazaar/forge#rsa) generation method, with all necessary algorithm parameters and the `prng` created previously.
+3. Compose both keys with the defined formats.
+
 </details>
 
 <details><summary><strong>ED25519</strong></summary>
 
-This algorithm doesn't have any default parameters since it only needs a 32 bytes seed.
+This algorithm doesn't have any default parameters since it just relies on 32 bytes randomly generated.
 
 Example `Object`:
 ```js
@@ -170,16 +199,22 @@ Example `String`:
 ```js
 const algorithm = 'ed25519';
 ```
+
+##### Generation
+
+The following steps detail how the generation of an ED25519 key pair is being done:
+1. Generate a key pair, using [Node Forge ED25519](https://github.com/digitalbazaar/forge#ed25519) generation method, with a 32 bytes `seed`. This `seed` can be provided or generated:
+	- If a `mnemonic` is not provided, one will be generated first to generate the `seed` based on it. Both generations are done with [bip39](https://github.com/bitcoinjs/bip39).
+	- If a `mnemonic` is provided, the `seed` is generated based on it. This generation is done with [bip39](https://github.com/bitcoinjs/bip39).
+3. Compose both keys with the defined formats.
+
 </details>
 
-----------
-</details>
-
-<details name="options"><summary><strong>options</strong></summary>
+#### options
 
 Type: `Object`
 
-Currently, options are available for composability purposes. Your key pair will be composed and, if needed, encrypted based on these. 
+The current options allow you to decide on the key format, the key encryption and the password to use to encrypt the key.
 
 Available options:
 
@@ -213,9 +248,6 @@ For more information please read the [Encryption Algorithms Section](https://git
 Type: `String`
 
 The password to be used on the encryption of the private key.
-</details>
-
-----------
 </details>
 
 ## Tests

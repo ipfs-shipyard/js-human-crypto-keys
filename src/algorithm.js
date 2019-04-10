@@ -1,7 +1,7 @@
 import { getKeyTypeFromAlgorithm } from 'crypto-key-composer';
 import * as rsa from './keys/rsa';
 import * as ed25519 from './keys/ed25519';
-import { UnkownAlgorithm, UnkownAlgorithmParam, NilAlgorithmParam, TypeMismatchAlgorithmParam } from './utils/errors';
+import { UnknownAlgorithmError, UnknownAlgorithmParamError, NilAlgorithmParamError, TypeMismatchAlgorithmParamError } from './utils/errors';
 
 const supportedAlgorithms = {
     rsa,
@@ -11,17 +11,17 @@ const supportedAlgorithms = {
 const buildParams = (defaultParams, customParams) => Object.keys(customParams).reduce((params, key) => {
     // Do not allow unknown keys (params)
     if (defaultParams[key] == null) {
-        throw new UnkownAlgorithmParam(key);
+        throw new UnknownAlgorithmParamError(key);
     }
 
     // Do not allow nullish values
     if (customParams[key] == null) {
-        throw new NilAlgorithmParam(key);
+        throw new NilAlgorithmParamError(key);
     }
 
     // Do not allow different types
     if (typeof customParams[key] !== typeof defaultParams[key]) {
-        throw new TypeMismatchAlgorithmParam(key, typeof defaultParams[key]);
+        throw new TypeMismatchAlgorithmParamError(key, typeof defaultParams[key]);
     }
 
     params[key] = customParams[key];
@@ -34,7 +34,7 @@ const parseAlgorithm = (keyAlgorithm) => {
     const type = supportedAlgorithms[algorithm.id] ? algorithm.id : getKeyTypeFromAlgorithm(algorithm.id);
 
     if (!type) {
-        throw new UnkownAlgorithm(algorithm.id);
+        throw new UnknownAlgorithmError(algorithm.id);
     }
 
     const { generateKeyPair, defaultParams } = supportedAlgorithms[type];

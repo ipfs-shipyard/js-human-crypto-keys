@@ -17,8 +17,8 @@ const getFormats = (privateKeyFormat = 'pkcs8-pem') => {
     return formats;
 };
 
-const composeKeys = ({ privateKey, publicKey }, keyAlgorithm, options = {}) => {
-    const { format, encryptionAlgorithm, password } = options;
+const composeKeys = ({ privateKey, publicKey }, keyAlgorithm, options) => {
+    const { format, encryptionAlgorithm, password } = { ...options };
     const formats = getFormats(format);
 
     return {

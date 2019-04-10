@@ -1,9 +1,9 @@
 import rsa from 'node-forge/lib/rsa';
-import { createPrng } from '../../utils';
+import { createPrng } from '../../utils/prng';
 import { generateKeyPair, defaultParams } from '../rsa';
 import { mockSeed, mockForgePrivateKey, mockForgePublicKey } from './mocks';
 
-jest.mock('../../utils');
+jest.mock('../../utils/prng');
 jest.mock('node-forge/lib/rsa', () => ({
     generateKeyPair: jest.fn((modulusLength, publicExponent, options, callback) => {
         callback(null, { privateKey: mockForgePrivateKey, publicKey: mockForgePublicKey });

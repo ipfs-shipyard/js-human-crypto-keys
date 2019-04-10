@@ -1,5 +1,5 @@
 import ed25519 from 'node-forge/lib/ed25519';
-import { typedArrayToUint8Array } from '../utils';
+import { typedArrayToUint8Array } from '../utils/binary';
 
 const defaultParams = {};
 

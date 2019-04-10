@@ -1,6 +1,6 @@
 import hash from 'hash.js';
 import HmacDrgb from 'hmac-drbg';
-import { createPrng } from '../index';
+import { createPrng } from '../prng';
 import { mockSeed, mockRandomGeneration } from './mocks';
 
 jest.mock('hmac-drbg');

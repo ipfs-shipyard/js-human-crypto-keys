@@ -1,6 +1,6 @@
 import rsa from 'node-forge/lib/rsa';
 import pify from 'pify';
-import { createPrng } from '../utils';
+import { createPrng } from '../utils/prng';
 
 const forgeGenerateKeyPair = pify(rsa.generateKeyPair);
 
