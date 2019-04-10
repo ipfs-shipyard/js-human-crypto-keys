@@ -30,10 +30,22 @@ describe('generateKeyPair', () => {
         expect(keyPair).toMatchSnapshot();
     });
 
-    it('should generate key pair composed with a different format', async () => {
-        const keyPair = await generateKeyPair('rsa', { format: 'pkcs1-der' });
+    it('should generate key pair composed with a different formats', async () => {
+        const keyPair = await generateKeyPair('rsa', { privateKeyFormat: 'pkcs1-der', publicKeyFormat: 'raw-pem' });
 
         expect(keyPair).toMatchSnapshot();
+    });
+
+    it('should fail if with invalid private key format', async () => {
+        await expect(generateKeyPair('rsa', { privateKeyFormat: 'spki-der' })).rejects.toThrow('Unsupported format \'spki-der\'');
+    });
+
+    it('should fail if with invalid public key format', async () => {
+        await expect(generateKeyPair('rsa', { publicKeyFormat: 'pkcs1-pem' })).rejects.toThrow('Unsupported format \'pkcs1-pem\'');
+    });
+
+    it('should fail if with invalid public key format for a specific algorigthm', async () => {
+        await expect(generateKeyPair('ed25519', { privateKeyFormat: 'pkcs1-pem' })).rejects.toThrow('The key algorithm id for PKCS1 must be one of RSA\'s');
     });
 
     it('should generate key pair composed and encrypted', async () => {

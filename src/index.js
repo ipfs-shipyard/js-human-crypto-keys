@@ -2,34 +2,20 @@ import bip39 from 'bip39';
 import parseAlgorithm from './algorithm';
 import { composePrivateKey, composePublicKey } from 'crypto-key-composer';
 
-const getFormats = (privateKeyFormat = 'pkcs8-pem') => {
-    const formats = {
-        privateKey: privateKeyFormat,
-        publicKey: privateKeyFormat,
-    };
-
-    if (privateKeyFormat.includes('pem')) {
-        formats.publicKey = 'spki-pem';
-    } else if (privateKeyFormat.includes('der')) {
-        formats.publicKey = 'spki-der';
-    }
-
-    return formats;
-};
-
 const composeKeys = ({ privateKey, publicKey }, keyAlgorithm, options) => {
-    const { format, encryptionAlgorithm, password } = { ...options };
-    const formats = getFormats(format);
+    options = { privateKeyFormat: 'pkcs8-pem', publicKeyFormat: 'spki-pem', ...options };
+
+    const { privateKeyFormat, publicKeyFormat, encryptionAlgorithm, password } = options;
 
     return {
         privateKey: composePrivateKey({
-            format: formats.privateKey,
+            format: privateKeyFormat,
             keyAlgorithm,
             keyData: privateKey,
             encryptionAlgorithm,
         }, { password }),
         publicKey: composePublicKey({
-            format: formats.publicKey,
+            format: publicKeyFormat,
             keyAlgorithm,
             keyData: publicKey,
         }),

@@ -42,7 +42,7 @@ const keyPairFromSeed = await getKeyPairFromSeed(keyPair.seed, keyPair.algorithm
 
 ```
 
-> ⚠️ human-crypto-keys depends on cryptographical modules that can increase the size of a project. Please keep in mind that, depending on your needs, dynamic imports might be suitable.
+> ⚠️ human-crypto-keys depends on cryptographic modules that can increase the bundle size of your projects significantly. You might want to break big bundles in smaller pieces with the help of [dynamic imports](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/import#Dynamic_Imports).
 
 ## API
 
@@ -101,7 +101,7 @@ The algorithm identifier and the respective parameters to generate a key pair. P
 
 Type: `Object`
 
-Options to be used while composing keys.Please read the [options](#options) section for more information.
+Options to be used while composing keys. Please read the [options](#options) section for more information.
 
 ### getKeyPairFromSeed(seed, algorithm, options)
 
@@ -131,7 +131,7 @@ The algorithm identifier and the respective parameters to generate a key pair. P
 
 Type: `Object`
 
-Options to be used while composing keys.Please read the [options](#options) section for more information.
+Options to be used while composing keys. Please read the [options](#options) section for more information.
 
 ### Common Parameters
 
@@ -178,9 +178,7 @@ In the examples above we are using an alias for RSA encryption. Although this is
 ##### Generation
 
 The following steps detail how the generation of a RSA key pair is being done:
-1. Create a Pseudorandom Number Generator, `prng` for short, with [HMAC-DRBG](https://github.com/indutny/hmac-drbg) using a `seed` as its generation entropy. This `seed` can be provided or generated:
-	- If a `mnemonic` is not provided, one will be generated first to generate the `seed` based on it. Both generations are done with [bip39](https://github.com/bitcoinjs/bip39).
-	- If a `mnemonic` is provided, the `seed` is generated based on it. This generation is done with [bip39](https://github.com/bitcoinjs/bip39).
+1. Create a Pseudorandom Number Generator, `prng` for short, with [HMAC-DRBG](https://github.com/indutny/hmac-drbg) using a `seed` as its generation entropy. This seed is directly provided when using `getKeyFromSeed` or inferred from a mnemonic passed in `getKeyFromMnemonic`. If neither the seed nor the mnemonic are available they can both be generated, as done in `generateKeyPair`. The generation of a mnemonic and its derived seed are done with [bip39](https://github.com/bitcoinjs/bip39), a well established method used in bitcoin wallets.
 2. Generate a key pair, using [Node Forge RSA](https://github.com/digitalbazaar/forge#rsa) generation method, with all necessary algorithm parameters and the `prng` created previously.
 3. Compose both keys with the defined formats.
 
@@ -202,11 +200,9 @@ const algorithm = 'ed25519';
 
 ##### Generation
 
-The following steps detail how the generation of an ED25519 key pair is being done:
-1. Generate a key pair, using [Node Forge ED25519](https://github.com/digitalbazaar/forge#ed25519) generation method, with a 32 bytes `seed`. This `seed` can be provided or generated:
-	- If a `mnemonic` is not provided, one will be generated first to generate the `seed` based on it. Both generations are done with [bip39](https://github.com/bitcoinjs/bip39).
-	- If a `mnemonic` is provided, the `seed` is generated based on it. This generation is done with [bip39](https://github.com/bitcoinjs/bip39).
-3. Compose both keys with the defined formats.
+The following steps detail how the generation of a ED25519 key pair is being done:
+1. Generate a key pair, using [Node Forge ED25519](https://github.com/digitalbazaar/forge#ed25519) generation method, with a 32 bytes `seed`. This seed is directly provided when using `getKeyFromSeed` or inferred from a mnemonic passed in `getKeyFromMnemonic`. If neither the seed nor the mnemonic are available they can both be generated, as done in `generateKeyPair`. The generation of a mnemonic and its derived seed are done with [bip39](https://github.com/bitcoinjs/bip39), a well established method used in bitcoin wallets.
+2. Compose both keys with the defined formats.
 
 </details>
 
@@ -214,24 +210,32 @@ The following steps detail how the generation of an ED25519 key pair is being do
 
 Type: `Object`
 
-The current options allow you to decide on the key format, the key encryption and the password to use to encrypt the key.
+The current options allow you to decide both private and public key formats, the private key encryption and the password to use to encrypt the key.
 
 Available options:
 
-<details><summary><strong>format</strong></summary>
+<details><summary><strong>privateKeyFormat</strong></summary>
 
 Type: `String`
 
 Default: `pkcs8-pem`
 
-Keys can be composed in different formats. All formats available are described in the [Formats Section](https://github.com/ipfs-shipyard/js-crypto-key-composer/tree/initial-impl#formats) of [crypto-key-composer](https://github.com/ipfs-shipyard/js-crypto-key-composer) package.
+The format in which the private key will be composed.
 
-The **format** option defines in which format the private key will be composed.
+Keys can be composed in different formats and vary by algorithm. All formats available are described in the [Formats Section](https://github.com/ipfs-shipyard/js-crypto-key-composer/tree/initial-impl#formats) of [crypto-key-composer](https://github.com/ipfs-shipyard/js-crypto-key-composer) package.
 
-The public key format is inferred from the private key one:
-- If it is a `pem` the public key will be composed in `spki-pem`.
-- If it is a `der` it will be composed in `spki-der`.
-- If it is none of `pem` or `der` it will be the same as the private key format.
+</details>
+
+<details><summary><strong>publicKeyFormat</strong></summary>
+
+Type: `String`
+
+Default: `spki-pem`
+
+The format in which the public key will be composed.
+
+Keys can be composed in different formats and vary by algorithm. All formats available are described in the [Formats Section](https://github.com/ipfs-shipyard/js-crypto-key-composer/tree/initial-impl#formats) of [crypto-key-composer](https://github.com/ipfs-shipyard/js-crypto-key-composer) package.
+
 </details>
 
 <details><summary><strong>encryptionAlgorithm</strong></summary>
