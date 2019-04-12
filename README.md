@@ -14,7 +14,7 @@
 [david-dm-dev-url]:https://david-dm.org/ipfs-shipyard/js-human-crypto-keys?type=dev
 [david-dm-dev-image]:https://img.shields.io/david/dev/ipfs-shipyard/js-human-crypto-keys.svg
 
-Generate and import human-friendly cryptographic keys using mnemonics, QR codes and other methods.
+Generate and import human-friendly cryptographic keys using mnemonics or seeds.
 
 
 ## Installation
