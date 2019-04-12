@@ -1,6 +1,6 @@
 {
   "name": "human-crypto-keys",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "Generate and import human-friendly cryptographic keys using mnemonics or seeds",
   "main": "lib/index.js",
   "module": "es/index.js",
@@ -34,8 +34,8 @@
     "es"
   ],
   "scripts": {
-    "build:commonjs": "BABEL_ENV=commonjs babel src -d lib",
-    "build:es": "BABEL_ENV=es babel src -d es",
+    "build:commonjs": "BABEL_ENV=commonjs babel src -d lib --ignore \"**/__tests__\"",
+    "build:es": "BABEL_ENV=es babel src -d es --ignore \"**/__tests__\"",
     "build": "npm run build:commonjs && npm run build:es",
     "test": "jest --coverage",
     "lint": "eslint --ignore-path .gitignore .",
