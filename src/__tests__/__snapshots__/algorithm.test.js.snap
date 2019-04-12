@@ -1,0 +1,40 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`parseAlgorithm should get type if unsupported algorithm id is passed 1`] = `
+Object {
+  "generate": [Function],
+  "id": "rsaes-oaep",
+  "params": Object {
+    "method": "PRIMEINC",
+    "modulusLength": 2048,
+    "publicExponent": 65537,
+  },
+  "type": "rsa",
+}
+`;
+
+exports[`parseAlgorithm should parse correctly 1`] = `
+Object {
+  "generate": [Function],
+  "id": "rsa",
+  "params": Object {
+    "method": "PRIMEINC",
+    "modulusLength": 2048,
+    "publicExponent": 65537,
+  },
+  "type": "rsa",
+}
+`;
+
+exports[`parseAlgorithm should support keyAlgorithm as string 1`] = `
+Object {
+  "generate": [Function],
+  "id": "rsa",
+  "params": Object {
+    "method": "PRIMEINC",
+    "modulusLength": 2048,
+    "publicExponent": 65537,
+  },
+  "type": "rsa",
+}
+`;

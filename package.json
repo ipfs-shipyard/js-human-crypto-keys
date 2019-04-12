@@ -1,7 +1,7 @@
 {
   "name": "human-crypto-keys",
   "version": "0.0.0",
-  "description": "Generate and import human-friendly cryptographic keys using mnemonics, QR codes and other methods",
+  "description": "Generate and import human-friendly cryptographic keys using mnemonics or seeds",
   "main": "lib/index.js",
   "module": "es/index.js",
   "homepage": "https://github.com/ipfs-shipyard/js-human-crypto-keys#readme",
@@ -17,6 +17,7 @@
     "import",
     "store",
     "recover",
+    "deterministic",
     "key",
     "mnemonic",
     "qr-code",
@@ -63,6 +64,9 @@
       "@commitlint/config-conventional"
     ]
   },
+  "jest": {
+    "testRegex": "/__tests__/.*\\.test\\.js$"
+  },
   "devDependencies": {
     "@babel/cli": "^7.2.3",
     "@babel/core": "^7.3.4",
@@ -78,5 +82,11 @@
     "standard-version": "^5.0.0"
   },
   "dependencies": {
+    "bip39": "^2.6.0",
+    "crypto-key-composer": "^0.1.0",
+    "hash.js": "^1.1.7",
+    "hmac-drbg": "^1.0.1",
+    "node-forge": "^0.8.2",
+    "pify": "^4.0.1"
   }
 }
