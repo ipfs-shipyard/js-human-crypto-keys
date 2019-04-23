@@ -34,15 +34,31 @@ const parseForgePublicKey = (publicKey) => {
     };
 };
 
+const disableWorker = () => {
+    if (typeof Worker === 'undefined') {
+        return () => undefined;
+    }
+
+    const globalWorker = Worker;
+
+    /* eslint-disable no-global-assign */
+    Worker = undefined;
+
+    return () => { Worker = globalWorker; };
+    /* eslint-enabled no-global-assign */
+};
+
 const generateKeyPair = async (params, seed) => {
     const { modulusLength, publicExponent, method } = params;
 
-    const options = {
+    const restoreWorker = disableWorker();
+
+    const { privateKey, publicKey } = await forgeGenerateKeyPair(modulusLength, publicExponent, {
         prng: createPrng(seed),
         algorithm: method,
-    };
+    });
 
-    const { privateKey, publicKey } = await forgeGenerateKeyPair(modulusLength, publicExponent, options);
+    restoreWorker();
 
     return {
         privateKey: parseForgePrivateKey(privateKey),
