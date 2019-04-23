@@ -40,5 +40,18 @@ describe('generateKeyPair', () => {
 
         expect(keyPair).toMatchSnapshot();
     });
+
+    it('should disable Worker', async () => {
+        const worker = jest.fn();
+
+        global.Worker = worker;
+
+        const params = { modulusLength: 1, publicExponent: 2, method: 'foo' };
+
+        await generateKeyPair(params, mockSeed);
+
+        expect(global.Worker).toEqual(worker);
+        expect(worker).toHaveBeenCalledTimes(0);
+    });
 });
 
