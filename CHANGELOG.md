@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.1.1"></a>
+## [0.1.1](https://github.com/ipfs-shipyard/js-human-crypto-keys/compare/v0.1.0...v0.1.1) (2019-04-23)
+
+
+### Bug Fixes
+
+* rsa generation with web workers ([#5](https://github.com/ipfs-shipyard/js-human-crypto-keys/issues/5)) ([8108e5d](https://github.com/ipfs-shipyard/js-human-crypto-keys/commit/8108e5d))
+
+
+
 <a name="0.1.0"></a>
 # 0.1.0 (2019-04-12)
 
