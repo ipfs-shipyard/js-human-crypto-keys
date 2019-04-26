@@ -34,8 +34,8 @@
     "es"
   ],
   "scripts": {
-    "build:commonjs": "BABEL_ENV=commonjs babel src -d lib --ignore \"**/__tests__\"",
-    "build:es": "BABEL_ENV=es babel src -d es --ignore \"**/__tests__\"",
+    "build:commonjs": "BABEL_ENV=commonjs babel src -d lib --ignore \"**/__tests__\" --delete-dir-on-start",
+    "build:es": "BABEL_ENV=es babel src -d es --ignore \"**/__tests__\" --delete-dir-on-start",
     "build": "npm run build:commonjs && npm run build:es",
     "test": "jest --coverage",
     "lint": "eslint --ignore-path .gitignore .",
