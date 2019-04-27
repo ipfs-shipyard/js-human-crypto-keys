@@ -9,12 +9,12 @@ jest.mock('../keys/rsa', () => ({
 
 jest.mock('bip39', () => ({
     generateMnemonic: jest.fn(() => mockMnemonic),
-    mnemonicToSeedAsync: jest.fn(() => mockSeed),
+    mnemonicToSeed: jest.fn(() => Promise.resolve(mockSeed)),
 }));
 
 beforeEach(() => {
     bip39.generateMnemonic.mockClear();
-    bip39.mnemonicToSeedAsync.mockClear();
+    bip39.mnemonicToSeed.mockClear();
     rsa.generateKeyPair.mockClear();
 });
 
@@ -24,8 +24,8 @@ describe('generateKeyPair', () => {
 
         expect(bip39.generateMnemonic).toHaveBeenCalledTimes(1);
 
-        expect(bip39.mnemonicToSeedAsync).toHaveBeenCalledTimes(1);
-        expect(bip39.mnemonicToSeedAsync).toHaveBeenCalledWith(mockMnemonic);
+        expect(bip39.mnemonicToSeed).toHaveBeenCalledTimes(1);
+        expect(bip39.mnemonicToSeed).toHaveBeenCalledWith(mockMnemonic);
 
         expect(keyPair).toMatchSnapshot();
     });
@@ -66,8 +66,8 @@ describe('getKeyPairFromMnemonic', () => {
 
         expect(bip39.generateMnemonic).toHaveBeenCalledTimes(0);
 
-        expect(bip39.mnemonicToSeedAsync).toHaveBeenCalledTimes(1);
-        expect(bip39.mnemonicToSeedAsync).toHaveBeenCalledWith(mockMnemonic);
+        expect(bip39.mnemonicToSeed).toHaveBeenCalledTimes(1);
+        expect(bip39.mnemonicToSeed).toHaveBeenCalledWith(mockMnemonic);
 
         expect(keyPair).toMatchSnapshot();
     });
@@ -78,7 +78,7 @@ describe('getKeyPairFromSeed', () => {
         const keyPair = await getKeyPairFromSeed(mockSeed, 'rsa');
 
         expect(bip39.generateMnemonic).toHaveBeenCalledTimes(0);
-        expect(bip39.mnemonicToSeedAsync).toHaveBeenCalledTimes(0);
+        expect(bip39.mnemonicToSeed).toHaveBeenCalledTimes(0);
 
         expect(keyPair).toMatchSnapshot();
     });
