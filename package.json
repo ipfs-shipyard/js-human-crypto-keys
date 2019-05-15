@@ -82,9 +82,8 @@
     "standard-version": "^5.0.0"
   },
   "dependencies": {
-    "bip39": "^3.0.1",
+    "bip39": "^3.0.2",
     "crypto-key-composer": "^0.1.0",
-    "es6-error": "^4.1.1",
     "hash.js": "^1.1.7",
     "hmac-drbg": "^1.0.1",
     "node-forge": "^0.8.2",
