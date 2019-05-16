@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.1.3"></a>
+## [0.1.3](https://github.com/ipfs-shipyard/js-human-crypto-keys/compare/v0.1.2...v0.1.3) (2019-05-16)
+
+
+### Bug Fixes
+
+* bip39 not exporting default ([1e29252](https://github.com/ipfs-shipyard/js-human-crypto-keys/commit/1e29252))
+
+
+
 <a name="0.1.2"></a>
 ## [0.1.2](https://github.com/ipfs-shipyard/js-human-crypto-keys/compare/v0.1.1...v0.1.2) (2019-05-06)
 
