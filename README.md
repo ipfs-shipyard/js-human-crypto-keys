@@ -39,7 +39,6 @@ const keyPairFromMnemonic = await getKeyPairFromMnemonic(keyPair.mnemonic, keyPa
 
 const keyPairFromSeed = await getKeyPairFromSeed(keyPair.seed, keyPair.algorithm);
 // => Generates the same key pair based on the seed.
-
 ```
 
 > ⚠️ human-crypto-keys depends on cryptographic modules that can increase the bundle size of your projects significantly. You might want to break big bundles in smaller pieces with the help of [dynamic imports](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/import#Dynamic_Imports).
@@ -136,7 +135,7 @@ Options to be used while composing keys. Please read the [options](#options) sec
 ### Common Parameters
 
 #### algorithm
- 
+
 Type: `Object` or `String`
 
 The algorithm identifier and the respective parameters to generate a key pair.
