@@ -37,7 +37,7 @@ describe('generateKeyPair', () => {
     });
 
     it('should fail if with invalid private key format', async () => {
-        await expect(generateKeyPair('rsa', { npm: 'spki-der' })).rejects.toThrow('Unsupported format \'spki-der\'');
+        await expect(generateKeyPair('rsa', { privateKeyFormat: 'spki-der' })).rejects.toThrow('Unsupported format \'spki-der\'');
     });
 
     it('should fail if with invalid public key format', async () => {
