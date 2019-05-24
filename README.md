@@ -45,7 +45,7 @@ const keyPairFromSeed = await getKeyPairFromSeed(keyPair.seed, keyPair.algorithm
 
 ## API
 
-### generateKeyPair(algorithm, options)
+### generateKeyPair(algorithm, [options])
 
 Generates a key pair based on the specified algorithm.
 
@@ -56,7 +56,7 @@ Returns an object with the following:
     mnemonic,   // The mnemonic used to create a seed for generation.
     seed,       // The seed used for generation.
     privateKey, // The generated private key composed in a specific format.
-    publicKey,  // The generated public key composed in a specific format. 
+    publicKey,  // The generated public key composed in a specific format.
 }
 ```
 
@@ -64,15 +64,15 @@ Returns an object with the following:
 
 Type: `Object` or `String`
 
-The algorithm identifier and the respective parameters to generate a key pair. Please read the [algorithms](#algorithms) section for more information.
+The algorithm identifier and the respective parameters to generate a key pair. Please read the [algorithm](#algorithm-3) section for more information.
 
 #### options
 
 Type: `Object`
 
-Options to be used while composing keys.Please read the [options](#options) section for more information.
+Options to be used while composing keys. Please read the [options](#options-3) section for more information.
 
-### getKeyPairFromMnemonic(mnemonic, algorithm, options)
+### getKeyPairFromMnemonic(mnemonic, algorithm, [options])
 
 Generates a key pair based on the specified mnemonic and algorithm.
 
@@ -80,7 +80,7 @@ Returns an object with the following:
 ```js
 {
     privateKey, // The generated private key composed in a specific format.
-    publicKey,  // The generated public key composed in a specific format. 
+    publicKey,  // The generated public key composed in a specific format.
 }
 ```
 
@@ -94,15 +94,15 @@ The mnemonic provided as one of the recovery methods for a key pair.
 
 Type: `Object` or `String`
 
-The algorithm identifier and the respective parameters to generate a key pair. Please read the [algorithms](#algorithms) section for more information.
+The algorithm identifier and the respective parameters to generate a key pair. Please read the [algorithm](#algorithm-3) section for more information.
 
 #### options
 
 Type: `Object`
 
-Options to be used while composing keys. Please read the [options](#options) section for more information.
+Options to be used while composing keys. Please read the [options](#options-3) section for more information.
 
-### getKeyPairFromSeed(seed, algorithm, options)
+### getKeyPairFromSeed(seed, algorithm, [options])
 
 Generates a key pair based on the specified seed and algorithm.
 
@@ -110,7 +110,7 @@ Returns an object with the following:
 ```js
 {
     privateKey, // The generated private key composed in a specific format.
-    publicKey,  // The generated public key composed in a specific format. 
+    publicKey,  // The generated public key composed in a specific format.
 }
 ```
 
@@ -124,13 +124,13 @@ The seed provided as one of the recovery methods for a key pair.
 
 Type: `Object` or `String`
 
-The algorithm identifier and the respective parameters to generate a key pair. Please read the [algorithms](#algorithms) section for more information.
+The algorithm identifier and the respective parameters to generate a key pair. Please read the [algorithms](#algorithm-3) section for more information.
 
 #### options
 
 Type: `Object`
 
-Options to be used while composing keys. Please read the [options](#options) section for more information.
+Options to be used while composing keys. Please read the [options](#options-3) section for more information.
 
 ### Common Parameters
 
@@ -155,16 +155,13 @@ Default Parameters:
 }
 ```
 
-You can override only the parameters that you need, all the other ones remain with default values. 
+You can override only the parameters that you need, all the other ones remain with default values.
 
 > ⚠️ Please make sure that values follow the same type as default ones. Also, parameters that are not available as default are not supported.
 
 Example `Object`:
 ```js
-const algorithm = {
-    id: 'rsa',
-    modulusLength: 4096,
-}
+const algorithm = { id: 'rsa', modulusLength: 4096 };
 ```
 
 Example `String`:
