@@ -1,6 +1,6 @@
 {
   "name": "human-crypto-keys",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "description": "Generate and import human-friendly cryptographic keys using mnemonics or seeds",
   "main": "lib/index.js",
   "module": "es/index.js",

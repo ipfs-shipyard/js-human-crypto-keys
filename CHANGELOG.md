@@ -1,6 +1,15 @@
-# Change Log
+# Changelog
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
+
+### [0.1.4](https://github.com/ipfs-shipyard/js-human-crypto-keys/compare/v0.1.3...v0.1.4) (2019-05-25)
+
+
+### Bug Fixes
+
+* fix concurrency issues with disabling worker for RSA ([#7](https://github.com/ipfs-shipyard/js-human-crypto-keys/issues/7)) ([fcb3c01](https://github.com/ipfs-shipyard/js-human-crypto-keys/commit/fcb3c01))
+
+
 
 <a name="0.1.3"></a>
 ## [0.1.3](https://github.com/ipfs-shipyard/js-human-crypto-keys/compare/v0.1.2...v0.1.3) (2019-05-16)
