@@ -1,5 +1,5 @@
 import rsa from 'node-forge/lib/rsa';
-import { createPrng } from '../../utils/prng';
+import createPrng from '../../utils/prng';
 import { generateKeyPair, defaultParams } from '../rsa';
 import { mockSeed, mockForgePrivateKey, mockForgePublicKey } from './mocks';
 
@@ -53,5 +53,20 @@ describe('generateKeyPair', () => {
         expect(global.Worker).toEqual(worker);
         expect(worker).toHaveBeenCalledTimes(0);
     });
-});
 
+    it('should disable Worker (concurrently)', async () => {
+        const worker = jest.fn();
+
+        global.Worker = worker;
+
+        const params = { modulusLength: 1, publicExponent: 2, method: 'foo' };
+
+        await Promise.all([
+            generateKeyPair(params, mockSeed),
+            generateKeyPair(params, mockSeed),
+        ]);
+
+        expect(global.Worker).toEqual(worker);
+        expect(worker).toHaveBeenCalledTimes(0);
+    });
+});

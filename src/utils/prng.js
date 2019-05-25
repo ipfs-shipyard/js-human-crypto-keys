@@ -2,7 +2,7 @@ import util from 'node-forge/lib/util';
 import HmacDrgb from 'hmac-drbg';
 import hash from 'hash.js';
 
-export const createPrng = (seed) => {
+const createPrng = (seed) => {
     const hmacDrgb = new HmacDrgb({
         hash: hash.sha256,
         entropy: util.binary.hex.encode(seed),
@@ -19,3 +19,5 @@ export const createPrng = (seed) => {
         },
     };
 };
+
+export default createPrng;
