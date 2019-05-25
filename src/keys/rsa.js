@@ -1,6 +1,7 @@
 import rsa from 'node-forge/lib/rsa';
 import pify from 'pify';
-import { createPrng } from '../utils/prng';
+import createPrng from '../utils/prng';
+import disableWorker from '../utils/disable-worker';
 
 const forgeGenerateKeyPair = pify(rsa.generateKeyPair);
 
@@ -32,20 +33,6 @@ const parseForgePublicKey = (publicKey) => {
         modulus: new Uint8Array(n.toByteArray()),
         publicExponent: e.intValue(),
     };
-};
-
-const disableWorker = () => {
-    if (typeof Worker === 'undefined') {
-        return () => undefined;
-    }
-
-    const globalWorker = Worker;
-
-    /* eslint-disable no-global-assign */
-    Worker = undefined;
-
-    return () => { Worker = globalWorker; };
-    /* eslint-enabled no-global-assign */
 };
 
 const generateKeyPair = async (params, seed) => {
