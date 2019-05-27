@@ -54,7 +54,7 @@ Returns an object with the following:
 {
     algorithm,  // An object with the algorithm identifier and respective parameters that were used during generation.
     mnemonic,   // The mnemonic used to create a seed for generation.
-    seed,       // The seed used for generation.
+    seed,       // The seed used for generation (Uint8Array).
     privateKey, // The generated private key composed in a specific format.
     publicKey,  // The generated public key composed in a specific format.
 }
@@ -116,7 +116,7 @@ Returns an object with the following:
 
 #### seed
 
-Type: `String`
+Type: `Uint8Array`
 
 The seed provided as one of the recovery methods for a key pair.
 
