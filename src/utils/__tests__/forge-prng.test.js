@@ -1,6 +1,6 @@
 import hash from 'hash.js';
 import HmacDrgb from 'hmac-drbg';
-import createPrng from '../prng';
+import createForgePrng from '../forge-prng';
 import { mockSeed, mockRandomGeneration } from './mocks';
 
 jest.mock('hmac-drbg');
@@ -9,9 +9,9 @@ beforeEach(() => {
     HmacDrgb.mockClear();
 });
 
-describe('createPrng', () => {
+describe('createForgePrng', () => {
     it('should create prng correctly', async () => {
-        createPrng(mockSeed);
+        createForgePrng(mockSeed);
 
         expect(HmacDrgb).toHaveBeenCalledWith({
             hash: hash.sha256,
@@ -22,7 +22,7 @@ describe('createPrng', () => {
     });
 
     it('should generate bytes correctly', () => {
-        const prng = createPrng(mockSeed);
+        const prng = createForgePrng(mockSeed);
 
         HmacDrgb.mock.instances[0].generate = jest.fn(() => mockRandomGeneration);
 

@@ -1,6 +1,6 @@
 import rsa from 'node-forge/lib/rsa';
 import pify from 'pify';
-import createPrng from '../utils/prng';
+import createForgePrng from '../utils/forge-prng';
 import disableWorker from '../utils/disable-worker';
 
 const forgeGenerateKeyPair = pify(rsa.generateKeyPair);
@@ -41,7 +41,7 @@ const generateKeyPair = async (params, seed) => {
     const restoreWorker = disableWorker();
 
     const { privateKey, publicKey } = await forgeGenerateKeyPair(modulusLength, publicExponent, {
-        prng: createPrng(seed),
+        prng: createForgePrng(seed),
         algorithm: method,
     });
 

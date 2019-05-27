@@ -1,9 +1,9 @@
 import rsa from 'node-forge/lib/rsa';
-import createPrng from '../../utils/prng';
+import createForgePrng from '../../utils/forge-prng';
 import { generateKeyPair, defaultParams } from '../rsa';
 import { mockSeed, mockForgePrivateKey, mockForgePublicKey } from './mocks';
 
-jest.mock('../../utils/prng');
+jest.mock('../../utils/forge-prng');
 jest.mock('node-forge/lib/rsa', () => ({
     generateKeyPair: jest.fn((modulusLength, publicExponent, options, callback) => {
         callback(null, { privateKey: mockForgePrivateKey, publicKey: mockForgePublicKey });
@@ -12,7 +12,7 @@ jest.mock('node-forge/lib/rsa', () => ({
 
 beforeEach(() => {
     rsa.generateKeyPair.mockClear();
-    createPrng.mockClear();
+    createForgePrng.mockClear();
 });
 
 describe('defaultParams', () => {
@@ -30,8 +30,8 @@ describe('generateKeyPair', () => {
         const params = { modulusLength: 1, publicExponent: 2, method: 'foo' };
         const keyPair = await generateKeyPair(params, mockSeed);
 
-        expect(createPrng).toHaveBeenCalledTimes(1);
-        expect(createPrng).toHaveBeenCalledWith(mockSeed);
+        expect(createForgePrng).toHaveBeenCalledTimes(1);
+        expect(createForgePrng).toHaveBeenCalledWith(mockSeed);
 
         expect(rsa.generateKeyPair).toHaveBeenCalledTimes(1);
         expect(rsa.generateKeyPair.mock.calls[0][0]).toEqual(1);
