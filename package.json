@@ -78,7 +78,7 @@
     "eslint-config-moxy": "^7.0.1",
     "husky": "^2.1.0",
     "jest": "^24.1.0",
-    "lint-staged": "^8.1.4",
+    "lint-staged": "^13.1.0",
     "standard-version": "^6.0.1"
   },
   "dependencies": {
