@@ -35,8 +35,7 @@ const generateKeys = async (seed, algorithm, options) => {
 
 const generateKeyPair = async (algorithm, options) => {
     const mnemonic = bip39.generateMnemonic();
-    const seedBuffer = await bip39.mnemonicToSeed(mnemonic);
-    const seed = new Uint8Array(seedBuffer.buffer);
+    const seed = await bip39.mnemonicToSeed(mnemonic);
 
     const { keyAlgorithm, composedKeyPair } = await generateKeys(seed, algorithm, options);
 
@@ -49,8 +48,7 @@ const generateKeyPair = async (algorithm, options) => {
 };
 
 const getKeyPairFromMnemonic = async (mnemonic, algorithm, options) => {
-    const seedBuffer = await bip39.mnemonicToSeed(mnemonic);
-    const seed = new Uint8Array(seedBuffer.buffer);
+    const seed = await bip39.mnemonicToSeed(mnemonic);
 
     return getKeyPairFromSeed(seed, algorithm, options);
 };
